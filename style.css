@@ -1,0 +1,90 @@
+/* Elements */
+html, body {
+    background: gray;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+p {
+    padding: 10px;
+    margin: 0;
+    background: rgb(139, 139, 139);
+    font-family: sans-serif;
+    font-size: 16px;
+}
+h1 {
+    padding: 10px;
+    font-family: sans-serif;
+}
+img {
+    width: 60%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+a {
+    padding: 2px;
+    background: blue;
+    color: white;
+    font-family: sans-serif;
+    font-size: 12px;
+    display: block;
+    border: solid;
+    border-color: white;
+}
+a:hover {
+    background: white;
+    color: black;
+    border-color: blue;
+}
+
+/* Classes */
+.GameDiv {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    background: rgb(75, 75, 75);
+    height: 175px;
+}
+.GameDiv-Image {
+    margin: 0;
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.GameDiv-Info {
+    margin: 0;
+    width: 70%;
+    height: 100%;
+    background: rgb(139, 139, 139);
+}
+.MainTitle {
+    padding: 10px;
+    margin: 0;
+    background: black;
+    font-family: sans-serif;
+    color: red;
+    text-align: center;
+    font-size: 48px;
+}
+.SecTitle {
+    padding: 10px;
+    margin: 0;
+    background: black;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+}
+.GameInfo {
+    padding: 10px;
+    margin: 0;
+    background: rgb(139, 139, 139);
+    font-family: sans-serif;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
