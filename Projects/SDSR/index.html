@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SDS Remote</title>
+    <meta content="Supreme Duelist Stickman Remote" property="og:title" />
+    <meta content="Supreme Duelist Stickman is a web app that allows you to play remotely with someone else." property="og:description" />
+    <meta content="https://creep5432.github.io/Projects/SDSR/sdsrlogo.png" property="og:image" />
+    <meta content="#00aeff" data-react-helmet="true" name="theme-color" />
+    <style>
+        @font-face {
+            font-family: SDS;
+            src: url("font.otf")
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+            margin: 0px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: linear-gradient(#0d375d, #085d9c);
+            padding: 0px;
+            margin: 0px;
+        }
+
+        button {
+            background-color: #31384a;
+            border: 4px solid black;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            font-family: "Lilita One", serif;
+        }
+
+        input {
+            background-color: #31384a;
+            border: 4px solid black;
+            color: white;
+            padding: 9px;
+            text-align: center;
+            font-weight: bold;
+            font-family: "SDS", serif;
+        }
+
+        p {
+            color: white;
+            font-family: "SDS", serif;
+            font-size: 24px;
+        }
+
+        h1 {
+            color: white;
+            font-family: "SDS", serif;
+            text-align: center;
+            font-weight: normal;
+            font-size: 36px;
+        }
+
+        img {
+            display: inline-block;
+            width: 480px;
+        }
+
+        .play {
+            width: 150px;
+            color: white;
+            display: inline-block;
+            padding: 18px;
+            font-family: "SDS", serif;
+            text-align: center;
+            font-size: 24px;
+            background: linear-gradient(to bottom, lime, green);
+            border-radius: 12px;
+            font-style: normal;
+        }
+    </style>
+</head>
+    <body>
+        <h1>Supreme Duelist Stickman Remote</h1>
+        <p>A project that allows two people to play <b style="color:darkorange;">Supreme Duelist Stickman</b> remotely from anywhere with nothing but a web browser.</p>
+        <table>
+            <tr>
+                <th><img src="promo1.gif" /></th>
+                <th><p>Gameplay sample where one player is connected.</p></th>
+            </tr>
+        </table>
+        <div style="display:flex;align-content:center;width:100%">
+            <a class="play" href="game.html">Play!</a>
+        </div>
+    </body>
+</html>
