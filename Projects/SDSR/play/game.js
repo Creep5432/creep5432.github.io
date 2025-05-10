@@ -26,7 +26,7 @@ var remote = null
 
 
 // Gameobject init shit
-const joy = new MobileJoystick(-325, 105, 200);
+const joy = new MobileJoystick(325, 105, 200);
 joy.color = "white";
 joy.stickColor = "white";
 joy.baseSize /= 3;
@@ -57,7 +57,7 @@ joy.tick = () => {
 const replay = new Button("", 0, 135, 220, 85, "#FFFFFF00");
 replay.bold = true;
 
-const swap = new Button("Left Joystick", 360, -215, 120, 35, "#FFFFFF20");
+const swap = new Button("Right Joystick", 360, -215, 120, 35, "#FFFFFF20");
 swap.onclick = function () {
     swap.text = swap.text=="Left Joystick"?"Right Joystick":"Left Joystick"
     joy.x *= -1
