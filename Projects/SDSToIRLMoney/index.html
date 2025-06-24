@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SDS coins to IRL money</title>
+        <meta content="SDS coins to IRL money" property="og:title" />
+        <meta content="Webpage that estimates how much money SDS weapons would cost in IRL money." property="og:description" />
+        <meta content="#00aeff" data-react-helmet="true" name="theme-color" />
+        <style>
+            #table {
+                width: 100%
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            Recently, there was an Stickman Clash Mobile update that allows the player to pay money in exchange for in-game coins.
+            The only payment option currently is <span>1500 coins</span> for <span>1.99$</span>
+        </p>
+        <h3>List:</h3>
+        <table id="table">
+            <tr>
+                <th>Item</th>
+                <th>Cost (Coin)</th>
+                <th>Cost (Dollars)</th>
+            </tr>
+        </table>
+    </body>
+</html>
+<script>
+    const taxrate = 1.06;
+    const coinPayment = 1500 / 1.99;
+
+    const allItems = [
+        // Supreme Duelist
+        {
+            name: "Laser Sword",
+            cost: 60
+        },
+        {
+            name: "Bazooka",
+            cost: 60
+        },
+        {
+            name: "Pickaxe",
+            cost: 60
+        },
+        {
+            name: "Shiruken",
+            cost: 60
+        },
+        {
+            name: "Iron Hand",
+            cost: 60
+        },
+        {
+            name: "Paint Brush",
+            cost: 60
+        },
+        {
+            name: "Arm Cannon (SDS)",
+            cost: 60
+        },
+        {
+            name: "Cards",
+            cost: 60
+        },
+        {
+            name: "Staff",
+            cost: 60
+        },
+        {
+            name: "Potion",
+            cost: 60
+        },
+        {
+            name: "Crossbow",
+            cost: 60
+        },
+        {
+            name: "Harp",
+            cost: 60
+        },
+        {
+            name: "Lollipop",
+            cost: 60
+        },
+        {
+            name: "Lantern",
+            cost: 60
+        },
+        {
+            name: "Blades",
+            cost: 60
+        },
+        {
+            name: "Magnet",
+            cost: 150
+        },
+        {
+            name: "Snowflake",
+            cost: 150
+        },
+        {
+            name: "Dualsaber (SDS)",
+            cost: 60
+        },
+        {
+            name: "Hoverboard",
+            cost: 150
+        },
+        {
+            name: "Shell",
+            cost: 150
+        },
+        {
+            name: "Light Wheels",
+            cost: 150
+        },
+        {
+            name: "Wrench",
+            cost: 300
+        },
+        {
+            name: "Spring",
+            cost: 300
+        },
+        {
+            name: "Fan",
+            cost: 300
+        },
+        {
+            name: "Yoyo",
+            cost: 300
+        },
+        {
+            name: "Shovel",
+            cost: 300
+        },
+        {
+            name: "Umbrella",
+            cost: 300
+        },
+        {
+            name: "Atom",
+            cost: 300
+        },
+        // Stickman Clash
+        {
+            name: "Dualsaber (SCM)",
+            cost: 500
+        },
+        {
+            name: "Deathbook",
+            cost: 120
+        },
+        {
+            name: "Bleach Blade",
+            cost: 500
+        },
+        {
+            name: "Shidori",
+            cost: 150
+        },
+        {
+            name: "Sand ghaara",
+            cost: 80
+        },
+        {
+            name: "Arm Cannon (SCM)",
+            cost: 120
+        },
+        {
+            name: "Razengan",
+            cost: 250
+        },
+        {
+            name: "Kameamea",
+            cost: 250
+        },
+        {
+            name: "Laserbeam",
+            cost: 120
+        },
+        {
+            name: "one Punch",
+            cost: 180
+        },
+        {
+            name: "Claw",
+            cost: 120
+        },
+        {
+            name: "Grenade Gauntlet",
+            cost: 250
+        },
+    ]
+
+    const calculatePrices = () => {
+        const table = document.getElementById("table");
+        const itemEle = (data) => { return `<tr><th>${data[0]}</th><th>${data[1]}</th><th>${data[2]}</th></tr>`; }
+
+        const sortByHighestCost = allItems.sort((a, b) => { return b.cost - a.cost });
+
+        for (let i of sortByHighestCost) {
+            const calcI = [
+                i.name,
+                i.cost,
+                ((i.cost / coinPayment) * taxrate).toFixed(2) + "$"
+            ]
+
+            const tableItemEle = itemEle(calcI);
+            table.innerHTML += tableItemEle;
+        }
+    }
+    calculatePrices()
+</script>
