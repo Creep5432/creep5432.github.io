@@ -6,6 +6,8 @@ const playScreen = document.getElementById("connectScreen");
 const gameScreen = document.getElementById("gameScreen");
 const joystick = document.querySelector('virtual-joystick');
 
+let microphoneStream = null;
+
 // Joystick
 const handleKeyEvents = () => {
     joystick.dataset.release.split('').forEach(() => { });
@@ -22,14 +24,14 @@ function clamp(value, min, max) {return Math.min(Math.max(value, min), max);}
 
 // init vc
 async function initVCObject() {
-    var userMedia = navigator.mediaDevices.getUserMedia
-    userMedia({ audio: true, video: false })
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         .then((audio) => {
             if ("srcObject" in microphone) {
                 microphone.srcObject = audio
             } else {
                 microphone.src = URL.createObjectURL(audio)
             }
+            microphoneStream = audio;
             microphone.muted = true;
             microphone.play();
         })
@@ -90,8 +92,7 @@ async function initConn() {
             });
 
             if (enableVC) {
-                const mic = microphone.srcObject || microphone.src;
-                const vc = peer.call(`${txt.replaceAll("\"", "")}-voicechat`, mic);
+                const vc = peer.call(`${txt.replaceAll("\"", "")}-voicechat`, microphoneStream);
                 vc.on("stream", (a) => {
                     if ("srcObject" in vcAudio) {
                         vcAudio.srcObject = a
