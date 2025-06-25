@@ -1,12 +1,15 @@
+const playerColors = ["", "fbff00", "0048ff"]
+
+
 // Elements
 const stream = document.getElementById("stream");
 const microphone = document.getElementById("vc-mic");
-const vcAudio = document.getElementById("vc-audio");
 const playScreen = document.getElementById("connectScreen");
 const gameScreen = document.getElementById("gameScreen");
 const joystick = document.querySelector('virtual-joystick');
 
 let microphoneStream = null;
+let connectedVcPeers = [];
 
 // Joystick
 const handleKeyEvents = () => {
@@ -41,12 +44,11 @@ async function initVCObject() {
 }
 
 async function initConn() {
-    const color = ["","fbff00","0048ff"]
     playScreen.style.display = "none";
 
-    const enableVC = confirm("This application has voice chat. Do you want to connect to voice chat?");
+    //const enableVC = confirm("This application has voice chat. Do you want to connect to voice chat?");
 
-    if (enableVC) {await initVCObject()}
+    //if (enableVC) {await initVCObject()}
 
     fetch("https://creep5432-sdsr-default-rtdb.firebaseio.com/hostPeer.json").then((res) => {
         if (!res.ok) {
@@ -90,20 +92,6 @@ async function initConn() {
                     })
                 });
             });
-
-            if (enableVC) {
-                const vc = peer.call(`${txt.replaceAll("\"", "")}-voicechat`, microphoneStream);
-                vc.on("stream", (a) => {
-                    if ("srcObject" in vcAudio) {
-                        vcAudio.srcObject = a
-                    } else {
-                        vcAudio.src = URL.createObjectURL(a)
-                    }
-
-                    alert("vc connected...")
-                    vcAudio.play()
-                })
-            }
         });
         peer.on("error", (e) => {
             throw new Error(e)
