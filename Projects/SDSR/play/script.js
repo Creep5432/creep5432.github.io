@@ -46,10 +46,6 @@ async function initVCObject() {
 async function initConn() {
     playScreen.style.display = "none";
 
-    //const enableVC = confirm("This application has voice chat. Do you want to connect to voice chat?");
-
-    //if (enableVC) {await initVCObject()}
-
     fetch("https://creep5432-sdsr-default-rtdb.firebaseio.com/hostPeer.json").then((res) => {
         if (!res.ok) {
             throw new Error("Couldn't get host's ID ):")
@@ -90,6 +86,15 @@ async function initConn() {
                         }
                         stream.play()
                     })
+                    call.peerConnection.addEventListener('negotiationneeded', async () => {
+                        const offer = await call.peerConnection.createOffer();
+                        const modifiedSDP = forceH264(offer.sdp);
+                        const newOffer = new RTCSessionDescription({
+                            type: 'offer',
+                            sdp: modifiedSDP
+                        });
+                        await call.peerConnection.setLocalDescription(newOffer);
+                    });
                 });
             });
         });
@@ -97,6 +102,26 @@ async function initConn() {
             throw new Error(e)
         })
     })
+}
+
+function forceH264(sdp) {
+    const sdpLines = sdp.split('\r\n');
+
+    const mLineIndex = sdpLines.findIndex(line => line.startsWith('m=video'));
+    if (mLineIndex === -1) return sdp;
+
+    const h264Payloads = sdpLines
+        .filter(line => line.startsWith('a=rtpmap') && /H264/.test(line))
+        .map(line => line.match(/^a=rtpmap:(\d+) H264/i)?.[1])
+        .filter(Boolean);
+
+    if (h264Payloads.length === 0) return sdp;
+
+    const mLineParts = sdpLines[mLineIndex].split(' ');
+    const newMLine = [...mLineParts.slice(0, 3), ...h264Payloads].join(' ');
+    sdpLines[mLineIndex] = newMLine;
+
+    return sdpLines.join('\r\n');
 }
 
 window.onerror = (e) => {
