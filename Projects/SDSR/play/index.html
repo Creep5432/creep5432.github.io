@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
         <title>Game</title>
         <style>
             @font-face {
@@ -74,6 +74,32 @@
                 color: transparent;
             }
 
+            .chatcontainer {
+                position: fixed;
+                width: 100%;
+                top: 0;
+                left: 0;
+
+                margin: 0px;
+                padding; 0px;
+            }
+
+            #chat {
+                font-family: "SDS", sans-serif;
+                font-size: 16px;
+                color: white;
+
+                margin: 0px;
+                padding; 0px;
+                display: inline;
+            }
+
+            #chatbutton {
+                margin: 0px;
+                padding; 0px;
+
+                display:inline;
+            }
         </style>
     </head>
     <body>
@@ -85,7 +111,10 @@
         <div id="gameScreen" style="display:none" class="scene">
             <video id="stream" autoplay playsinline muted></video>
         </div>
-
+        <div class="chatcontainer">
+            <button id="chatbutton">Chat</button>
+            <p id="chat">Player: Lorem ipsum dolor sit<p>
+        </div>
     </body>
 </html>
 <script src="virtual-joystick.js"></script>

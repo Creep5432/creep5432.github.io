@@ -7,9 +7,12 @@ const microphone = document.getElementById("vc-mic");
 const playScreen = document.getElementById("connectScreen");
 const gameScreen = document.getElementById("gameScreen");
 const joystick = document.querySelector('virtual-joystick');
+const chat = document.getElementById("chat");
+const chatButton = document.getElementById("chatbutton");
 
 let microphoneStream = null;
 let connectedVcPeers = [];
+let lastMovePacket = "";
 
 // Joystick
 const handleKeyEvents = () => {
@@ -25,24 +28,6 @@ function distanceBetween(object1, object2) {return Math.sqrt(Math.pow(object1.x 
 function angleBetween(object1, object2) {return Math.atan2((object2.y) - (object1.y), object2.x - object1.x);}
 function clamp(value, min, max) {return Math.min(Math.max(value, min), max);}
 
-// init vc
-async function initVCObject() {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-        .then((audio) => {
-            if ("srcObject" in microphone) {
-                microphone.srcObject = audio
-            } else {
-                microphone.src = URL.createObjectURL(audio)
-            }
-            microphoneStream = audio;
-            microphone.muted = true;
-            microphone.play();
-        })
-        .catch((r) => {
-            console.error(r);
-        })
-}
-
 async function initConn() {
     playScreen.style.display = "none";
 
@@ -56,6 +41,39 @@ async function initConn() {
         peer.on("open", (id) => {
             remote = peer.connect(txt.replaceAll("\"", ""));
             remote.on("open", () => {
+                remote.send("3Another player is on!");
+
+                chatbutton.onclick = () => {
+                    const text = document.createElement("input");
+                    text.type = "text";
+
+                    text.style = "fixed";
+                    text.style.bottom = "25%";
+                    text.style.left = "0";
+
+
+                    document.body.appendChild(text);
+
+                    text.focus();
+
+                    if ('virtualKeyboard' in navigator && navigator.virtualKeyboard.show) {
+                        navigator.virtualKeyboard.show();
+                    }
+
+                    text.addEventListener("focusout", (event) => {
+                        remote.send("3" + text.value);
+                        document.body.removeChild(text);
+                    });
+
+                    text.addEventListener("keydown", (event) => {
+                        if (event.key === "Enter") {
+                            remote.send("3" + text.value);
+                            document.body.removeChild(text);
+                        }
+                    })
+                };
+
+
                 gameScreen.style.display = "block";
                 const sendMovePacket = (j) => {
                     const joyInp = {
@@ -70,11 +88,20 @@ async function initConn() {
                     res += String(String.fromCharCode(Math.round(inp.x * 32767) + 32767));
                     res += String(String.fromCharCode(Math.round(inp.y * -32767) + 32767));
 
+                    if (res === lastMovePacket && (Math.random() < 0.75)) { return; }
+                    lastMovePacket = res;
+
                     remote.send(res);
                 }
 
+                remote.on("data", (data) => {
+                    if (typeof(data) == "string" && data.startsWith("3")) {
+                        chat.innerText = data.substring(1, data.length);
+                    }
+                });
+
                 document.getElementById("replayButton").onclick = () => { remote.send("2") }
-                setInterval(() => {sendMovePacket(joystick)}, (1000 / 20))
+                setInterval(() => {sendMovePacket(joystick)}, (1000 / 10))
 
                 peer.on("call", (call) => {
                     call.answer();
@@ -84,7 +111,7 @@ async function initConn() {
                         } else {
                             stream.src = URL.createObjectURL(getStream)
                         }
-                        stream.play()
+                        stream.play();
                     })
                     call.peerConnection.addEventListener('negotiationneeded', async () => {
                         const offer = await call.peerConnection.createOffer();
